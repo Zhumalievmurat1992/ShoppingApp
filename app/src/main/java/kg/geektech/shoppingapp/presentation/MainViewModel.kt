@@ -1,6 +1,5 @@
 package kg.geektech.shoppingapp.presentation
 
-import android.text.Editable
 import androidx.lifecycle.ViewModel
 import kg.geektech.shoppingapp.data.ShopListRepositoryImpl
 import kg.geektech.shoppingapp.domain.entity.ShopItem
@@ -19,7 +18,7 @@ class MainViewModel : ViewModel() {
     private val editShopItemUseCase = EditShopItemUseCase(repository)
 
 
-    fun addShopItem(shopItem: ShopItem){
+    fun addShopItem(shopItem: ShopItem) {
         addShopItemUseCase.addShopItem(shopItem)
 
     }
@@ -30,11 +29,10 @@ class MainViewModel : ViewModel() {
         removeShopItemUseCase.removeShopItem(shopItem)
     }
 
-    fun editShopItem(shopItem: ShopItem){
-        editShopItemUseCase.editShopItem(shopItem)
+    fun editShopItem(shopItem: ShopItem) {
+        val newItem = shopItem.copy(enable = !shopItem.enable)
+        editShopItemUseCase.editShopItem(newItem)
     }
-
-
 
 
 }

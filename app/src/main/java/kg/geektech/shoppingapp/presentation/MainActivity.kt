@@ -7,37 +7,37 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.activity.viewModels
+import by.kirich1409.viewbindingdelegate.viewBinding
 import kg.geektech.shoppingapp.R
+import kg.geektech.shoppingapp.databinding.ActivityMainBinding
 import kg.geektech.shoppingapp.domain.entity.ShopItem
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(R.layout.activity_main) {
 
-    private val viewModel:MainViewModel by viewModels()
+    private val viewModel: MainViewModel by viewModels()
+    private val binding: ActivityMainBinding by viewBinding()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-
-        val et = findViewById<EditText>(R.id.et)
-
-        viewModel.addShopItem(ShopItem("potato",14,false))
+        initListeners()
 
 
+    }
 
-
-        findViewById<Button>(R.id.btn_delete).setOnClickListener {
-            Log.d("myLogs","--------")
-            viewModel.removeShopItem(ShopItem(et.text.toString(),14,false))
-            Toast.makeText(this,"delete",Toast.LENGTH_SHORT).show()
-        }
-        findViewById<Button>(R.id.btn_add).setOnClickListener {
-            Log.d("myLogs","+++++++++")
-            viewModel.addShopItem(ShopItem(et.text.toString(),14,false))
-            Toast.makeText(this,"added",Toast.LENGTH_SHORT).show()
-        }
-
-
-        findViewById<Button>(R.id.btn).setOnClickListener {
-            Toast.makeText(this,viewModel.getShopList().toString(),Toast.LENGTH_SHORT).show()
+    private fun initListeners() {
+        binding.apply {
+            btnAdd.setOnClickListener {
+                viewModel.addShopItem(ShopItem(1,"potato", 2, false))
+            }
+            btnDelete.setOnClickListener {
+                viewModel.removeShopItem(ShopItem(1,"potato", 2, false))
+            }
+            btnEdit.setOnClickListener {
+                viewModel.editShopItem(ShopItem(1,"tomato", 14, false, 14))
+            }
+            btn.setOnClickListener {
+                Log.e("TAG", "initListeners: ${viewModel.getShopList()}")
+            }
         }
     }
 }
