@@ -19,8 +19,8 @@ class EditActivity : AppCompatActivity(R.layout.activity_edit) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding.saveBtn.setOnClickListener {
-            setResult(RESULT_OK, Intent().putExtra("Key", binding.dataEt.text.toString()))
-            setResult(RESULT_OK, Intent().putExtra("Key", binding.countEt.text.toString()))
+            setResult(RESULT_OK, Intent().putExtra("key", binding.dataEt.text.toString()))
+            setResult(RESULT_OK, Intent().putExtra("Key2", binding.countEt.text))
             finish()
         }
     }
