@@ -1,46 +1,42 @@
 package kg.geektech.shoppingapp.presentation.adapter
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import kg.geektech.shoppingapp.R
 import kg.geektech.shoppingapp.databinding.Item1Binding
 import kg.geektech.shoppingapp.databinding.Item2Binding
 import kg.geektech.shoppingapp.domain.entity.ShopItem
+import kg.geektech.shoppingapp.presentation.ShopListDiffCallback
 
-//private const val VIEW_TYPE_ONE:Int = 0
-//private const val VIEW_TYPE_TWO:Int = 1
-
-
-class ItemAdapter(val elements: List<ShopItem>):
-    RecyclerView
-    .Adapter<RecyclerView.ViewHolder>() {
+class ItemAdapter :
+    RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     companion object {
         const val VIEW_TYPE_ONE = 1
         const val VIEW_TYPE_TWO = 2
     }
 
-    private var list = ArrayList<ShopItem>()
+    private var list = listOf<ShopItem>()
+    var shopList = listOf<ShopItem>()
 
 
+    inner class ViewHolder(private val binding: Item1Binding) :
+        RecyclerView.ViewHolder(binding.root) {
 
+        fun bind(shopItem: ShopItem) {
+            binding.tvName.text = shopItem.name
+            binding.tvCount.text = shopItem.count.toString()
 
-    inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = Item1Binding.bind(itemView)
-        fun bind(shopItem: ShopItem) = with(binding) {
-            println("---------")
-            tvName.text = shopItem.name
-            tvCount.text = shopItem.count.toString()
         }
-
     }
 
-    inner class ViewHolder2(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val binding = Item2Binding.bind(itemView)
+    inner class ViewHolder2(private val binding: Item2Binding) :
+        RecyclerView.ViewHolder(binding.root) {
+
         fun bind(shopItem: ShopItem) = with(binding) {
-            elements.random()
             println("+++++++++")
             tvName2.text = shopItem.name
             tvCount2.text = shopItem.count.toString()
@@ -50,16 +46,33 @@ class ItemAdapter(val elements: List<ShopItem>):
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        return if (viewType == VIEW_TYPE_ONE) {
-            ViewHolder(LayoutInflater.from(parent.context)
-                .inflate(R.layout.item1, parent, false))
-
-        } else ViewHolder2(LayoutInflater.from(parent.context)
-            .inflate(R.layout.item2,parent,false))
+        when (viewType) {
+            VIEW_TYPE_ONE -> {
+                return ViewHolder(
+                    Item1Binding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
+                )
+            }
+            VIEW_TYPE_TWO -> {
+                return ViewHolder2(
+                    Item2Binding.inflate(
+                        LayoutInflater.from(parent.context),
+                        parent,
+                        false
+                    )
+                )
+            }
+            else -> {
+                throw RuntimeException("Not found")
+            }
+        }
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if (list[position].viewType == 0) {
+        return if (list[position].enable) {
             VIEW_TYPE_ONE
         } else {
             VIEW_TYPE_TWO
@@ -78,4 +91,12 @@ class ItemAdapter(val elements: List<ShopItem>):
         return list.size
     }
 
+    fun setList(list: List<ShopItem>) {
+        this.list = list
+        this.shopList = list
+        notifyDataSetChanged()
+        val callback = ShopListDiffCallback(this.list,list)
+        val diffResult = DiffUtil.calculateDiff(callback)
+        diffResult.dispatchUpdatesTo(this)
+    }
 }

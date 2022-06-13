@@ -27,13 +27,13 @@ class MainActivity : AppCompatActivity(R.layout.activity_main) {
     private fun initListeners() {
         binding.apply {
             btnAdd.setOnClickListener {
-                viewModel.addShopItem(ShopItem(1,"potato", 2, false))
+                viewModel.addShopItem(ShopItem("potato", 2, false))
             }
             btnDelete.setOnClickListener {
-                viewModel.removeShopItem(ShopItem(1,"potato", 2, false))
+                viewModel.removeShopItem(ShopItem("potato", 2, false))
             }
             btnEdit.setOnClickListener {
-                viewModel.editShopItem(ShopItem(1,"tomato", 14, false, 14))
+                viewModel.editShopItem(ShopItem("tomato", 14, false, 14))
             }
             btn.setOnClickListener {
                 Log.e("TAG", "initListeners: ${viewModel.getShopList()}")
