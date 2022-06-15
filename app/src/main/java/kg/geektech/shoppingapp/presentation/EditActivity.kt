@@ -20,7 +20,7 @@ class EditActivity : AppCompatActivity(R.layout.activity_edit) {
         super.onCreate(savedInstanceState)
         binding.saveBtn.setOnClickListener {
             setResult(RESULT_OK, Intent().putExtra("key", binding.dataEt.text.toString()))
-            setResult(RESULT_OK, Intent().putExtra("Key2", binding.countEt.text))
+            //setResult(RESULT_OK, Intent().putExtra("Key2", binding.countEt.text.toString()))
             finish()
         }
     }

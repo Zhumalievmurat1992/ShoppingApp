@@ -37,13 +37,13 @@ class SecondActivity : AppCompatActivity(R.layout.activity_second) {
         ) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val intent = result.data?.getStringExtra("key")
-                val intent2 = result.data?.getIntExtra("key",count)
+               // val intent2 = result.data?.getIntExtra("key",count)
                 text = intent.toString()
-                if (intent2 != null) {
-                    count = intent2.toInt()
-                }
+//                if (intent2 != null) {
+//                    count = intent2.toInt()
+//                }
                 viewModel.addShopItem(
-                    ShopItem(text, count, true)
+                    ShopItem(text, 0, true)
                 )
             }
         }

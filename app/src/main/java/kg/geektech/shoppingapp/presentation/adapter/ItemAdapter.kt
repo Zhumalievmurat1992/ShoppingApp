@@ -1,5 +1,6 @@
 package kg.geektech.shoppingapp.presentation.adapter
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
@@ -13,6 +14,8 @@ import kg.geektech.shoppingapp.presentation.ShopListDiffCallback
 
 class ItemAdapter :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
+
+   // var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
 
     companion object {
         const val VIEW_TYPE_ONE = 1
@@ -37,7 +40,6 @@ class ItemAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(shopItem: ShopItem) = with(binding) {
-            println("+++++++++")
             tvName2.text = shopItem.name
             tvCount2.text = shopItem.count.toString()
 
@@ -80,10 +82,16 @@ class ItemAdapter :
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+
         if (getItemViewType(position) == VIEW_TYPE_ONE) {
             (holder as ViewHolder).bind(list[position])
         } else {
             (holder as ViewHolder2).bind(list[position])
+        }
+
+        holder.itemView.setOnLongClickListener {
+//            onShopItemLongClickListener?.invoke(shopList[position])
+            true
         }
     }
 
@@ -91,6 +99,7 @@ class ItemAdapter :
         return list.size
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setList(list: List<ShopItem>) {
         this.list = list
         this.shopList = list
