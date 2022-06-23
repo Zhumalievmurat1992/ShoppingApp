@@ -7,18 +7,19 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.activity.viewModels
-import androidx.annotation.Nullable
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 import kg.geektech.shoppingapp.R
 import kg.geektech.shoppingapp.databinding.ActivitySecondBinding
 import kg.geektech.shoppingapp.domain.entity.ShopItem
 import kg.geektech.shoppingapp.presentation.adapter.ItemAdapter
-import kotlin.Int.Companion as Int
 
+@EntryPoint
 class SecondActivity : AppCompatActivity(R.layout.activity_second) {
 
     private val viewModel: MainViewModel by viewModels()
@@ -74,7 +75,7 @@ class SecondActivity : AppCompatActivity(R.layout.activity_second) {
                 return false
             }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: kotlin.Int) {
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction:Int) {
                 val item = adapter.shopList[viewHolder.absoluteAdapterPosition]
                 viewModel.removeShopItem(item)
             }

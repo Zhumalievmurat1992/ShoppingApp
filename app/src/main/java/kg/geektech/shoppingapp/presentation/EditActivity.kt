@@ -6,10 +6,13 @@ import android.os.Bundle
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.EntryPoint
+import dagger.hilt.android.AndroidEntryPoint
 import kg.geektech.shoppingapp.R
 import kg.geektech.shoppingapp.databinding.ActivityEditBinding
 import kg.geektech.shoppingapp.databinding.ActivityMainBinding
 
+@EntryPoint
 class EditActivity : AppCompatActivity(R.layout.activity_edit) {
 
     private val viewModel: MainViewModel by viewModels()

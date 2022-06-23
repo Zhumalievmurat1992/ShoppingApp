@@ -5,9 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import by.kirich1409.viewbindingdelegate.viewBinding
+import dagger.hilt.android.AndroidEntryPoint
 import kg.geektech.shoppingapp.R
 import kg.geektech.shoppingapp.databinding.ActivityMainBinding
 import kg.geektech.shoppingapp.domain.entity.ShopItem
+
 
 class MainActivity : AppCompatActivity(R.layout.activity_main) {
 

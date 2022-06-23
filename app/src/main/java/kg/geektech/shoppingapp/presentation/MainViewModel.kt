@@ -1,15 +1,19 @@
 package kg.geektech.shoppingapp.presentation
 
 import androidx.lifecycle.ViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kg.geektech.shoppingapp.data.ShopListRepositoryImpl
 import kg.geektech.shoppingapp.domain.entity.ShopItem
 import kg.geektech.shoppingapp.domain.usecasses.AddShopItemUseCase
 import kg.geektech.shoppingapp.domain.usecasses.EditShopItemUseCase
 import kg.geektech.shoppingapp.domain.usecasses.GetShopListUseCase
 import kg.geektech.shoppingapp.domain.usecasses.RemoveShopItemUseCase
+import javax.inject.Inject
+
+@HiltViewModel
 
 class MainViewModel : ViewModel() {
-
+     @Inject
     private val repository = ShopListRepositoryImpl()
 
     private val addShopItemUseCase = AddShopItemUseCase(repository)

@@ -2,6 +2,7 @@ package kg.geektech.shoppingapp.presentation.adapter
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
@@ -15,7 +16,7 @@ import kg.geektech.shoppingapp.presentation.ShopListDiffCallback
 class ItemAdapter :
     RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-   // var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
+    var onShopItemLongClickListener: ((ShopItem) -> Unit)? = null
 
     companion object {
         const val VIEW_TYPE_ONE = 1
@@ -26,22 +27,26 @@ class ItemAdapter :
     var shopList = listOf<ShopItem>()
 
 
-    inner class ViewHolder(private val binding: Item1Binding) :
+    inner class ViewHolder(private val binding: Item2Binding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(shopItem: ShopItem) {
-            binding.tvName.text = shopItem.name
-            binding.tvCount.text = shopItem.count.toString()
-
+            binding.tvName2.text = shopItem.name
+            binding.tvCount2.text = shopItem.count.toString()
+            binding.root.setOnLongClickListener{
+                onShopItemLongClickListener?.invoke(shopItem)
+                true
+            }
         }
+
     }
 
-    inner class ViewHolder2(private val binding: Item2Binding) :
+    inner class ViewHolder2(private val binding: Item1Binding) :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(shopItem: ShopItem) = with(binding) {
-            tvName2.text = shopItem.name
-            tvCount2.text = shopItem.count.toString()
+            tvName.text = shopItem.name
+            tvCount.text = shopItem.count.toString()
 
         }
 
@@ -49,18 +54,18 @@ class ItemAdapter :
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         when (viewType) {
-            VIEW_TYPE_ONE -> {
+            VIEW_TYPE_TWO -> {
                 return ViewHolder(
-                    Item1Binding.inflate(
+                    Item2Binding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
                     )
                 )
             }
-            VIEW_TYPE_TWO -> {
+            VIEW_TYPE_ONE -> {
                 return ViewHolder2(
-                    Item2Binding.inflate(
+                    Item1Binding.inflate(
                         LayoutInflater.from(parent.context),
                         parent,
                         false
@@ -75,26 +80,20 @@ class ItemAdapter :
 
     override fun getItemViewType(position: Int): Int {
         return if (list[position].enable) {
-            VIEW_TYPE_ONE
-        } else {
             VIEW_TYPE_TWO
+        } else {
+            VIEW_TYPE_ONE
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
-        if (getItemViewType(position) == VIEW_TYPE_ONE) {
+        if (getItemViewType(position) == VIEW_TYPE_TWO) {
             (holder as ViewHolder).bind(list[position])
         } else {
             (holder as ViewHolder2).bind(list[position])
         }
-
-        holder.itemView.setOnLongClickListener {
-//            onShopItemLongClickListener?.invoke(shopList[position])
-            true
-        }
     }
-
     override fun getItemCount(): Int {
         return list.size
     }
@@ -104,7 +103,7 @@ class ItemAdapter :
         this.list = list
         this.shopList = list
         notifyDataSetChanged()
-        val callback = ShopListDiffCallback(this.list,list)
+        val callback = ShopListDiffCallback(this.list, list)
         val diffResult = DiffUtil.calculateDiff(callback)
         diffResult.dispatchUpdatesTo(this)
     }
